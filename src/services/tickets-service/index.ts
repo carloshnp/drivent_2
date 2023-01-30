@@ -1,5 +1,6 @@
 import ticketsRepository from '@/repositories/ticket-repository';
 import { Ticket } from '@prisma/client';
+import enrollmentsService from '../enrollments-service';
 
 async function verifyTicketFromUser(id: number) {
   const ticket = await ticketsRepository.findTicketsByUserId(id);
@@ -10,13 +11,14 @@ async function verifyTicketFromUser(id: number) {
 }
 
 async function postTicket(userId: number, ticketTypeId: number) {
-  const enrollment = await ticketsRepository.getEnrollmentByUserId(userId)
-  const ticket = "ticket"
-  return "ticket"
+  const enrollment = await enrollmentsService.getOneWithAddressByUserId(userId);
+  const ticket = await ticketsRepository.postTicket(enrollment.id, ticketTypeId);
+  return ticket;
 }
 
 const ticketsService = {
   verifyTicketFromUser,
+  postTicket
 };
 
 export default ticketsService;

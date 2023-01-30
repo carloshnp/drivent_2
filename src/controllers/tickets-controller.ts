@@ -18,15 +18,15 @@ export async function verifyTicketsFromUser(req: AuthenticatedRequest, res: Resp
 }
 
 export async function postTicket(req: AuthenticatedRequest, res: Response) {
-  const { userId } = req
-  const { ticketTypeId } = req.body as {ticketTypeId: number}
+  const { userId } = req;
+  const { ticketTypeId } = req.body as { ticketTypeId: number };
   if (!ticketTypeId) {
-    return res.sendStatus(httpStatus.BAD_REQUEST)
+    return res.sendStatus(httpStatus.BAD_REQUEST);
   }
   try {
-    const ticket = await "postTicket" 
-    return res.status(httpStatus.CREATED).send(ticket)
+    const ticket = await ticketsService.postTicket(userId, ticketTypeId);
+    return res.status(httpStatus.CREATED).send(ticket);
   } catch (error) {
-    return res.sendStatus(httpStatus.NOT_FOUND)
+    return res.sendStatus(httpStatus.NOT_FOUND);
   }
 }
