@@ -9,6 +9,12 @@ async function verifyTicketFromUser(id: number) {
   return ticket;
 }
 
+async function postTicket(userId: number, ticketTypeId: number) {
+  const enrollment = await ticketsRepository.getEnrollmentByUserId(userId)
+  const ticket = "ticket"
+  return "ticket"
+}
+
 const ticketsService = {
   verifyTicketFromUser,
 };

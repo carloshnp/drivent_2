@@ -1,4 +1,4 @@
-import { prisma } from "@/config";
+import { prisma } from '@/config';
 
 function findTicketsByUserId(id: number) {
   const data = prisma.ticket.findFirst({
@@ -9,6 +9,18 @@ function findTicketsByUserId(id: number) {
     },
     include: {
       TicketType: true,
+    },
+  });
+  return data;
+}
+
+function getEnrollmentByUserId(id: number) {
+  const data = prisma.enrollment.findUnique({
+    where: {
+      userId: id,
+    },
+    select: {
+      id: true,
     },
   });
   return data;
