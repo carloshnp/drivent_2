@@ -25,5 +25,8 @@ export async function postTicket(req: AuthenticatedRequest, res: Response) {
   }
   try {
     const ticket = await "postTicket" 
+    return res.status(httpStatus.CREATED).send(ticket)
+  } catch (error) {
+    return res.sendStatus(httpStatus.NOT_FOUND)
   }
 }
