@@ -1,12 +1,13 @@
-import {authenticateToken} from "@/middlewares";
-import { Router } from "express"; 
+import { verifyTicketsFromUser } from '@/controllers/tickets-controller';
+import { authenticateToken } from '@/middlewares';
+import { enrollmentVerify } from '@/middlewares/enrollments-middleware';
+import { Router } from 'express';
 
 const ticketsRouter = Router();
 
-ticketsRouter
-  .all("/*", authenticateToken)
-  .get("/")
-  .get("/types")
-  .post("/");
+ticketsRouter.all("/*", authenticateToken);
+ticketsRouter.get("/", enrollmentVerify, verifyTicketsFromUser);
+ticketsRouter.get("/types");
+ticketsRouter.post("/");
 
 export { ticketsRouter };
