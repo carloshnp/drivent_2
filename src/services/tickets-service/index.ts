@@ -16,9 +16,15 @@ async function postTicket(userId: number, ticketTypeId: number) {
   return ticket;
 }
 
+async function getAllTicketTypes() {
+  const ticketTypes = await ticketsRepository.findAllTypes();
+  return ticketTypes;
+}
+
 const ticketsService = {
   verifyTicketFromUser,
-  postTicket
+  postTicket,
+  getAllTicketTypes
 };
 
 export default ticketsService;

@@ -8,8 +8,25 @@ export async function getPayment(req: AuthenticatedRequest, res: Response) {
   const ticketId = req.query.ticketId as string;
   const userId = res.locals.userId as number;
   if (!ticketId) {
-    throw invalidDataError(['']);
+    return res.sendStatus(httpStatus.BAD_REQUEST);
   }
-  const payment = await getTicketPayment(userId, parseInt(ticketId));
-  return res.status(httpStatus.OK).send(payment);
+  try {
+    const payment = await getTicketPayment(userId, parseInt(ticketId));
+    return res.status(httpStatus.OK).send(payment);
+  } catch (error) {
+    if (error.message === "UNAUTHORIZED") {
+      return res.sendStatus(httpStatus.UNAUTHORIZED);
+    }
+    return res.sendStatus(httpStatus.NOT_FOUND); 
+  }  
+}
+
+export async function postPayment(req: AuthenticatedRequest, res: Response) {
+  const payment = req.body;
+  try {
+    const ticketPayment = await "ticketPayment"
+    res.status(httpStatus.OK).send(ticketPayment);
+  } catch (error) {
+    res.sendStatus(httpStatus.BAD_REQUEST);
+  }
 }

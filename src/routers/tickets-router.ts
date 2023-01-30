@@ -1,4 +1,4 @@
-import { postTicket, verifyTicketsFromUser } from '@/controllers/tickets-controller';
+import { getTicketTypes, postTicket, verifyTicketsFromUser } from '@/controllers/tickets-controller';
 import { authenticateToken, validateBody } from '@/middlewares';
 import { enrollmentVerify } from '@/middlewares/enrollments-middleware';
 import { ticketTypeSchema } from '@/schemas/tickets-schemas';
@@ -8,7 +8,7 @@ const ticketsRouter = Router();
 
 ticketsRouter.all('/*', authenticateToken);
 ticketsRouter.get('/', enrollmentVerify, verifyTicketsFromUser);
-ticketsRouter.get('/types');
+ticketsRouter.get('/types', getTicketTypes);
 ticketsRouter.post('/', validateBody(ticketTypeSchema), enrollmentVerify, postTicket);
 
 export { ticketsRouter };

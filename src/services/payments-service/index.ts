@@ -8,7 +8,7 @@ export async function getTicketPayment(userId: number, ticketId: number) {
     throw notFoundError();
   }
   if (ticket.Enrollment.User.id !== userId) {
-    throw new Error('Forbidden');
+    throw new Error('UNAUTHORIZED');
   }
-  return await paymentRepository.getPaymentByTicketId(ticketId);
+  return await paymentRepository.getPaymentByTicketId(ticketId); 
 }

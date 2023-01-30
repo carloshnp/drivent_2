@@ -17,11 +17,11 @@ function findTicketsByUserId(id: number) {
 function getEnrollmentByUserId(id: number) {
   const data = prisma.enrollment.findUnique({
     where: {
-      userId: id
+      userId: id,
     },
     select: {
-      id: true
-    }
+      id: true,
+    },
   });
   return data;
 }
@@ -31,7 +31,10 @@ function postTicket(enrollmentId: number, ticketTypeId: number) {
     data: {
       ticketTypeId,
       enrollmentId,
-      status: "RESERVED"
+      status: 'RESERVED',
+    },
+    include: {
+      TicketType: true
     }
   });
   return data;
@@ -45,21 +48,26 @@ function findTicketById(id: number) {
         include: {
           User: {
             select: {
-              id: true
-            }
-          }
-        }
-      }
-    }
-  })
+              id: true,
+            },
+          },
+        },
+      },
+    },
+  });
   return data;
+}
+
+function findAllTypes() {
+  return prisma.ticketType.findMany();
 }
 
 const ticketsRepository = {
   findTicketsByUserId,
   getEnrollmentByUserId,
   postTicket,
-  findTicketById
+  findTicketById,
+  findAllTypes
 };
 
 export default ticketsRepository;
