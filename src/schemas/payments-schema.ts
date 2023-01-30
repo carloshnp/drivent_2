@@ -1,6 +1,15 @@
 import joi from 'joi'
 
-
+export type PaymentType = {
+  ticketId: number,
+  cardData: {
+    issuer: string,
+    number: number,
+    name: string,
+    expirationDate: Date,
+    cvv: number
+  }
+}
 
 export const PaymentSchema = joi.object({
   ticketId: joi.number().required(),

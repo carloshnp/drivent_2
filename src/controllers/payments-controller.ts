@@ -1,7 +1,7 @@
 import { invalidDataError } from '@/errors';
 import { Response } from 'express';
 import { AuthenticatedRequest } from '@/middlewares';
-import { getTicketPayment } from '@/services/payments-service';
+import { getTicketPayment, ticketPayment } from '@/services/payments-service';
 import httpStatus from 'http-status';
 
 export async function getPayment(req: AuthenticatedRequest, res: Response) {
@@ -24,8 +24,8 @@ export async function getPayment(req: AuthenticatedRequest, res: Response) {
 export async function postPayment(req: AuthenticatedRequest, res: Response) {
   const payment = req.body;
   try {
-    const ticketPayment = await "ticketPayment"
-    res.status(httpStatus.OK).send(ticketPayment);
+    const ticketPaid = await ticketPayment(payment);
+    res.status(httpStatus.OK).send(ticketPaid);
   } catch (error) {
     res.sendStatus(httpStatus.BAD_REQUEST);
   }

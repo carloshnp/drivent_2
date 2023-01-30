@@ -43,7 +43,7 @@ function postTicket(enrollmentId: number, ticketTypeId: number) {
 function findTicketById(id: number) {
   const data = prisma.ticket.findFirst({
     where: { id },
-    include: {
+    select: { 
       Enrollment: {
         include: {
           User: {
@@ -53,7 +53,12 @@ function findTicketById(id: number) {
           },
         },
       },
-    },
+      TicketType: {
+        select: {
+          price: true
+        }
+      }
+    }
   });
   return data;
 }
