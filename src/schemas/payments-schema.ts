@@ -11,7 +11,7 @@ export type PaymentType = {
   }
 }
 
-export const PaymentSchema = joi.object({
+export const PaymentSchema = joi.object<PaymentType>({
   ticketId: joi.number().required(),
   cardData: joi.object({
     issuer: joi.string().valid("VISA", "MASTERCARD").required(),

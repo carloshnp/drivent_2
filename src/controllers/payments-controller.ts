@@ -6,7 +6,7 @@ import httpStatus from 'http-status';
 
 export async function getPayment(req: AuthenticatedRequest, res: Response) {
   const ticketId = req.query.ticketId as string;
-  const userId = res.locals.userId as number;
+  const userId = req.userId as number;
   if (!ticketId) {
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
@@ -22,11 +22,19 @@ export async function getPayment(req: AuthenticatedRequest, res: Response) {
 }
 
 export async function postPayment(req: AuthenticatedRequest, res: Response) {
+  const userId = req.userId as number;
   const payment = req.body;
+  console.log(payment)
   try {
-    const ticketPaid = await ticketPayment(payment);
+    const ticketPaid = await ticketPayment(payment, userId);
     res.status(httpStatus.OK).send(ticketPaid);
   } catch (error) {
+    if (error.message === "UNAUTHORIZED") {
+      return res.sendStatus(httpStatus.UNAUTHORIZED)
+    }
+    if (error.message === "NOT_FOUND") {
+      return res.sendStatus(httpStatus.NOT_FOUND)
+    }
     res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }

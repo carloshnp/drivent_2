@@ -1,7 +1,7 @@
 import { prisma } from '@/config';
 import {Payment} from '@prisma/client';
 
-async function getPaymentByTicketId(ticketId: number) {
+function getPaymentByTicketId(ticketId: number) {
   const data = prisma.payment.findFirst({
     where: {
       ticketId,
@@ -10,7 +10,7 @@ async function getPaymentByTicketId(ticketId: number) {
   return data;
 }
 
-async function postTicketPayment(payment: Omit<Payment, "id">) {
+function postTicketPayment(payment: Omit<Payment, "id">) {
   const { ticketId, value, cardIssuer, cardLastDigits, createdAt, updatedAt } = payment;
   const data = prisma.payment.create({
     data: {
@@ -25,7 +25,7 @@ async function postTicketPayment(payment: Omit<Payment, "id">) {
   return data;
 }
 
-async function paidTicket(payment: Omit<Payment, "id">) {
+function paidTicket(payment: Omit<Payment, "id">) {
   const data = prisma.ticket.update({
     where: {
       id: payment.ticketId,
